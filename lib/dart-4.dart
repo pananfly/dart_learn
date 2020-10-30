@@ -4,12 +4,14 @@ import 'package:dart_learn/dart-2.dart' as dart2; // 指定库前缀
 import 'package:dart_learn/dart-2.dart' show testThrow; // 导入库的一部分
 import 'package:dart_learn/dart-2.dart' hide testSwitch; // 隐藏库的一部分
 // import 'package:dart_learn/dart-3.dart' deferred as dart3; // 延迟加载库
+import 'package:dart_learn/todo.dart';
 
 void main() {
   dart2.Person p = dart2.Person();
   greet();
   print("6666");
   testCallClass();
+  testTypedef();
 }
 
 Future greet() async {
@@ -64,3 +66,46 @@ class CallClass {
   }
 }
 
+
+typedef Compare = int Function(Object a, Object b);
+
+class SortedCollection {
+  Compare compare;
+  SortedCollection(this.compare);
+}
+
+int sort(Object a, Object b) => 878888;
+
+
+typedef Compared<T> = int Function(T a, T b);
+int sorted(int a, int b) => a - b;
+void testTypedef() {
+  // typedef 目前只适用于函数
+  SortedCollection collection = SortedCollection(sort);
+  int ret = collection.compare(null , null);
+  print("Typedef 1 ret: $ret");
+  assert(collection.compare is Function);
+  assert(collection.compare is Compare);
+  Compared<int> compared = sorted;
+  ret = compared(123, 4);
+  print("Typedef 2 ret: $ret");
+  todoSomething();
+}
+
+// 使用自定义注解
+@Todo("pananfly", "Implement something.")
+void todoSomething() {
+    print("Todo something.");
+}
+
+// 单行注释
+
+/*
+  多行注释
+  123432432
+ */
+
+/// 文档注释
+///
+///
+///
