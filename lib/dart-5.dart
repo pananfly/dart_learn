@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 void main()
 {
   assert(int.parse('42') == 42);
@@ -11,6 +13,8 @@ void main()
   print("${double.parse('1.2e+2')}");
   testString();
   testArray();
+  testUri();
+  testDate();
 }
 
 void testString() {
@@ -68,4 +72,88 @@ void testArray() {
   print(fruits.any((element) => element.contains('b'))); // 过滤条件, 返回true false.
   print(fruits.every((element) => element.contains('b'))); // 是否所有条件都满足, 返回true false.
   // page 8.
+}
+
+void testUri() {
+  print("=======testUri()======");
+  var url = 'http://pananfly.com/test?login=panan fly&pwd=123456';
+  var uriEncoded = Uri.encodeFull(url);
+  print(uriEncoded);
+  var uriDecoded = Uri.decodeFull(uriEncoded);
+  print(uriDecoded);
+  var uriComponentEncoded = Uri.encodeComponent(url);
+  print("Uri encode component: $uriComponentEncoded.");
+  var uriComponentDecoded = Uri.decodeComponent(uriComponentEncoded);
+  print("Uri decode component: $uriComponentDecoded.");
+  var uri = Uri.parse(url);
+  print("Uri scheme: ${uri.scheme}, host: ${uri.host}, path: ${uri.path}, fragment: ${uri.fragment}, origin: ${uri.origin}");
+  var uri2 = Uri(scheme: 'https', host: 'pananfly.com', path: 'login', fragment: '999');
+  print("Construct uri: $uri2");
+
+  // page 9.
+}
+
+void testDate() {
+  print("=======testDate()======");
+  print("Now time: ${DateTime.now()}");
+  print("2000: ${DateTime(2000, 1, 2)}");
+  print("2000 utc: ${DateTime.utc(2000)}");
+  print("time from ms utc: ${DateTime.fromMillisecondsSinceEpoch(946684800000, isUtc: true)}");
+  print("time from parse: ${DateTime.parse('2000-01-01T00:00:00Z')}");
+  print("Count of ms from 1970.1.1 to 2000.1.1: ${DateTime.utc(2000).millisecondsSinceEpoch}"); // 自公元1970.1.1 以来的毫秒数
+  print("Count of ms from 1970.1.1 to 1970.1.1: ${DateTime.utc(1970).millisecondsSinceEpoch}"); // 0
+  var time1 = DateTime.utc(2000);
+  print("Time add 366 days: ${time1.add(const Duration(days: 366))}");
+  print("Time subtract 30 days: ${time1.subtract(const Duration(days: 30))}");
+  var duration = DateTime.now().difference(time1);
+  print("Difference duration days: ${duration.inDays}, hours: ${duration.inHours}, seconds: ${duration.inSeconds}");
+
+}
+
+class Person {
+  final String firstName, lastName;
+  Person(this.firstName, this.lastName);
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode { // 重写hashCode
+    int result = 17;
+    result = 37 * result + firstName.hashCode;
+    result = 37 * result + lastName.hashCode;
+    return result;
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Person &&
+          runtimeType == other.runtimeType &&
+          firstName == other.firstName &&
+          lastName == other.lastName;
+}
+
+class Process { }
+
+class ProcessIterator implements Iterator<Process> {
+  @override
+  // TODO: implement current
+  Process get current => throw UnimplementedError();
+
+  @override
+  bool moveNext() {
+    // TODO: implement moveNext
+    throw UnimplementedError();
+  }
+}
+
+class Processes extends IterableBase<Process> {
+  @override
+  // TODO: implement iterator
+  Iterator<Process> get iterator => ProcessIterator();
+}
+
+void testIterator() {
+  for(var process in Processes()) {
+  }
+  // page 12.
 }
