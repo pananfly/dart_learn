@@ -1,4 +1,8 @@
 import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
+
+import 'dart:math';
 
 void main()
 {
@@ -15,6 +19,9 @@ void main()
   testArray();
   testUri();
   testDate();
+  testAsync();
+  testMath();
+  testConvert();
 }
 
 void testString() {
@@ -157,3 +164,105 @@ void testIterator() {
   }
   // page 12.
 }
+
+Future costlyQuery(String url) async{
+  return url;
+}
+
+Future expensiveWork(String value) async{
+  return value + "_expensive";
+}
+
+void testAwait() async {
+  var query = await costlyQuery("https://666.com");
+  var expensive = await expensiveWork(query);
+  print("testAwait: $expensive");
+
+  await Future.wait([costlyQuery("https://77777.com"), expensiveWork("1122334455")]);
+  String path = "";
+  if(FileSystemEntity.isDirectorySync(path)) {
+    final startingDir = Directory(path);
+    await for (var entity in startingDir.list()) {
+      if(entity is File) {
+        // search file
+      }
+    }
+  } else {
+    // search file
+  }
+
+  // querySelector("").onClick.listen((event) { })
+}
+
+void testStream() async {
+  var config = File('/Users/pananfly/Documents/flutter/README.md');
+  Stream<List<int>> inputStream = config.openRead();
+  var lines = inputStream.transform(utf8.decoder).transform(LineSplitter());
+  try {
+    await for (var line in lines) {
+      print("Got line: $line");
+    }
+  } catch (e, s) {
+    print("Stream error: $e");
+  }
+  print("***********");
+  inputStream = config.openRead(); // need to reopen.
+  inputStream.transform(utf8.decoder).transform(LineSplitter()).listen((event) {
+    print("line: $event");
+  }, onDone: () {
+    print('File is now close');
+  }, onError: (e) {
+    print("Stream error2: $e");
+  });
+}
+
+void testAsync() {
+  print("======testAsync() enter======");
+  testAwait();
+  print("++++++++++++++++");
+  Future result = costlyQuery("https://pananfly.com");
+  result.then((value) => expensiveWork(value))
+        .then((value) => print("Filter $value."))
+        .then((_) => print("Done..."))
+        .catchError((exception) {
+
+  });
+  print("++++++++++++++++");
+  testStream();
+  print("======testAsync() end======");
+}
+
+void testMath() {
+  print("=========testMath()=========");
+  print("cos(pi): ${cos(pi)}");
+  print("sin(): ${sin(30 * pi / 180)}");
+  print("abs(): ${(sin(30 * pi / 180) - 0.5).abs()}");
+  print(max(1, 1000));
+  print(min(1, -1000));
+  print("e: $e");
+  print("pi: $pi");
+  print("sqrt(2): ${sqrt(2)}");
+  var random = Random();
+  print("Random nextDouble: ${random.nextDouble()}"); // [0, 1)
+  print("Random nextInt: ${random.nextInt(10)}"); // [0, 9]
+  print("Random nextBool: ${random.nextBool()}"); // true or false
+}
+
+void testConvert() {
+  print("========testConvert()========");
+  var json = '''
+  [
+    {"score": 50},
+    {"score": 60}
+  ]
+  ''';
+  var scores = jsonDecode(json);
+  print("runtimeType: ${scores.runtimeType}, data: $scores"); // List
+  print("runtimeType 2: ${scores[0].runtimeType}, data: ${scores[0]}, data2: ${scores[0]['score']}"); // _InternalLinkedHashMap
+  List<int> utf8Bytes = [
+    0xc3, 0x8e, 0xc3, 0xb1, 0xc5, 0xa3, 0xc3, 0xa9, 0x72, 0xc3, 0xb1, 0xc3, 0xa5, 0xc5, 0xa3, 0xc3, 0xae, 0xc3, 0xb6, 0xc3, 0xb1, 0xc3, 0xa5, 0xc4, 0xbc, 0xc3, 0xae, 0xc5, 0xbe, 0xc3, 0xa5, 0xc5, 0xa3, 0xc3, 0xae, 0xe1, 0xbb, 0x9d, 0xc3, 0xb1
+  ];
+  print("UTF-8 decode: ${utf8.decode(utf8Bytes)}");
+  print("UTF-8 encode: ${utf8.encode("Îñţérñåţîöñåļîžåţîờñ")}"); // dart 字符串编码为utf-8
+}
+
