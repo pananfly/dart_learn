@@ -26,7 +26,7 @@ class Sample1 extends StatefulWidget {
   Sample1({Key key, this.title}) : super(key: key);
 
   @override
-  State createState() => _Sample1State();
+  State createState() => _Sample3State();
 }
 
 String sample1Txt = "pananfly";
@@ -66,4 +66,96 @@ class _Sample1State extends State<Sample1> {
       ),
     );
   }
+}
+
+class _Sample2State extends State<Sample1> with TickerProviderStateMixin {
+
+  AnimationController _animationController;
+  CurvedAnimation _curvedAnimation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _curvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.slowMiddle);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sample 2 fade test."),
+      ),
+      body: Center(
+        child: Container(
+          child: FadeTransition(
+            opacity: _curvedAnimation,
+            child: FlutterLogo(size: 100.0,),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Fade",
+        child: Icon(Icons.brush),
+        onPressed: ()  {
+          _animationController.reset();
+          _animationController.forward();
+        },
+      ),
+    );
+  }
+}
+
+
+class _Sample3State extends State<Sample1>{
+
+  List<Offset> _points = <Offset>[];
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GestureDetector(
+      onPanUpdate: (DragUpdateDetails details) {
+        setState(() {
+          RenderBox referenceBox = context.findRenderObject();
+          Offset localPosition = referenceBox.globalToLocal(details.globalPosition);
+          _points = List.from(_points)..add(localPosition);
+        });
+      },
+      onPanEnd: (DragEndDetails details) => _points.add(null),
+      child: CustomPaint(
+        painter: SignaturePainter(_points),
+        size: Size.infinite,
+      ),
+    );
+  }
+}
+
+class SignaturePainter extends CustomPainter {
+  final List<Offset> points;
+  var painting = Paint();
+
+  SignaturePainter(this.points) {
+    painting..color = Colors.red
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 5.0;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawColor(Colors.white, BlendMode.src);
+    for(int i = 0; i < points.length - 1 ; i++) {
+      if(points[i] != null && points[i + 1] != null) {
+        canvas.drawLine(points[i], points[i + 1], painting);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant SignaturePainter oldDelegate) => oldDelegate.points != points;
 }
