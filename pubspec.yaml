@@ -37,6 +37,7 @@ dependencies:
   intl: ^0.16.1
   flutter_localized_locales: ^1.1.1
   shared_preferences: ^0.5.12+4
+  webview_flutter: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -86,3 +87,7 @@ flutter:
 
   assets:
     - assets/images/test.png
+    - assets/images/pic1.jpg
+    - assets/images/pic2.jpg
+    - assets/images/pic3.jpg
+    - assets/images/cake.jpg
