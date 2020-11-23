@@ -16,7 +16,7 @@ class RowColumnSample extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.w800,
           letterSpacing: 0.5,
-          fontSize: 30,
+          fontSize: 20,
         ),
       ),
     );
@@ -27,7 +27,7 @@ class RowColumnSample extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
-          fontSize: 25,
+          fontSize: 15,
         ),
     );
 
@@ -55,9 +55,63 @@ class RowColumnSample extends StatelessWidget {
                 fontWeight: FontWeight.w800,
                 fontFamily: "Roboto",
                 letterSpacing: 0.5,
-                fontSize: 20
+                fontSize: 15
             ),
           )
+        ],
+      ),
+    );
+
+    final descTextStyle = TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w800,
+      fontFamily: 'Roboto',
+      letterSpacing: 0.5,
+      fontSize: 12,
+      height: 2
+    );
+
+    final iconList = DefaultTextStyle.merge(
+      style: descTextStyle,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Icon(Icons.kitchen, color: Colors.green[500],),
+                Text('PREP:'),
+                Text('25 min'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.timer, color: Colors.green[500],),
+                Text('COOK:'),
+                Text('1 hr'),
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.restaurant, color: Colors.green[500],),
+                Text('FEEDS:'),
+                Text('4-6'),
+              ],
+            ),
+          ],
+        ),
+      )
+    );
+
+    final leftColumn = Container(
+      padding: EdgeInsets.all(6),
+      child: Column(
+        children: [
+          titleText,
+          subTitleText,
+          ratings,
+          iconList
         ],
       ),
     );
@@ -85,13 +139,15 @@ class RowColumnSample extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
+                flex: 2,
                 child: Image.asset("assets/images/pic1.jpg"),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Image.asset("assets/images/pic2.jpg"),
               ),
               Expanded(
+                flex: 2,
                 child: Image.asset("assets/images/pic3.jpg"),
               ),
             ],
@@ -108,18 +164,20 @@ class RowColumnSample extends StatelessWidget {
             ],
           ),
           Divider(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Card(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  titleText,
-                  subTitleText,
-                  ratings,
+                  Container(
+                    width: 380,
+                    child: leftColumn,
+                  ),
+                  Image.asset("assets/images/cake.jpg", width: 200, fit: BoxFit.cover,),
                 ],
               ),
-              Image.asset("assets/images/cake.jpg", width: 100,),
-            ],
+            ),
           ),
         ],
       ),
