@@ -11,7 +11,39 @@ class LayoutSample1 extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget _buildImage() {
-      return Image.asset("assets/images/cake.jpg", fit: BoxFit.fill,);
+      return Container(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Image.asset("assets/images/cake.jpg", fit: BoxFit.fill,),
+      );
+    }
+
+    Widget _buildStar() {
+      return Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Text("Oeschinen Lake Campground",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+                Text("Kandersteg, Switzerland",
+                  style: TextStyle(
+                      color: Colors.grey
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.star, color: Colors.red,),
+          Text('41')
+        ],
+      );
     }
 
     return Scaffold(
@@ -19,8 +51,12 @@ class LayoutSample1 extends StatelessWidget {
         title: Text(this.title),
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
-        child: _buildImage(),
+        child: ListView(
+          children: [
+            _buildImage(),
+            _buildStar(),
+          ],
+        ),
       ),
     );
   }
