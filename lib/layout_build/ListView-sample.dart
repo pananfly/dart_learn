@@ -18,7 +18,6 @@ class ListViewSample extends StatelessWidget {
   ListViewSample({Key key, this.title}) : super(key: key);
 
 
-
   @override
   Widget build(BuildContext context) {
 

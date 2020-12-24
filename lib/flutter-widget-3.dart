@@ -6,6 +6,9 @@ import 'package:dart_learn/layout_build/GridView-sample.dart';
 import 'package:dart_learn/layout_build/ListView-sample.dart';
 import 'package:dart_learn/layout_build/Stack-sample.dart';
 import 'package:dart_learn/layout_build/Layout-Sample1.dart';
+import 'package:dart_learn/layout_build/Layout-Sample2.dart';
+import 'package:dart_learn/layout_build/StateSample.dart';
+import 'package:dart_learn/layout_build/AssetSample.dart';
 
 void main() {
   runApp(LayoutBuildSample());
@@ -33,6 +36,9 @@ const pages = [
   "ListView sample",
   "Stack sample",
   "Layout sample 1",
+  "Layout sample 2",
+  "State sample",
+  "Assets sample",
 ];
 
 Map<String, WidgetBuilder> getRouteMap() {
@@ -43,6 +49,9 @@ Map<String, WidgetBuilder> getRouteMap() {
   map.putIfAbsent(pages[3], () => (BuildContext ctx) => ListViewSample(title: pages[3]));
   map.putIfAbsent(pages[4], () => (BuildContext ctx) => StackSample(title: pages[4]));
   map.putIfAbsent(pages[5], () => (BuildContext ctx) => LayoutSample1(title: pages[5]));
+  map.putIfAbsent(pages[6], () => (BuildContext ctx) => LayoutSample2(title: pages[6]));
+  map.putIfAbsent(pages[7], () => (BuildContext ctx) => StateSample(title: pages[7]));
+  map.putIfAbsent(pages[8], () => (BuildContext ctx) => AssetSample(title: pages[8]));
 
   return map;
 }

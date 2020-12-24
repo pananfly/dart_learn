@@ -12,8 +12,8 @@ void main()
   assert(int.parse('42', radix: 16) == 66);
   assert(42.toString() == '42');
   assert(12.34.toString() == '12.34');
-  print("${123.456.toStringAsFixed(2)}");
-  print("${123.456.toStringAsPrecision(2)}");
+  print("${123.456.toStringAsFixed(2)}"); // 小数点后有多少位
+  print("${123.456.toStringAsPrecision(2)}"); // 包括小数点显示多少位 1.2e+2
   print("${double.parse('1.2e+2')}");
   testString();
   testArray();
