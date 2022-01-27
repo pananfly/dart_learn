@@ -21,8 +21,7 @@ showToast(String msg) {
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.blue,
       textColor: Colors.white,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 }
 
 Future<void> saveEmail() async {
@@ -36,7 +35,6 @@ Future<String> getEmail() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     saveEmail();
@@ -48,7 +46,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Sample1(title: 'Flutter Widget 1 Test'),
-      routes: <String, WidgetBuilder> {
+      routes: <String, WidgetBuilder>{
         '1': (BuildContext ctx) => Sample2(title: "Fade Test"),
         '2': (BuildContext ctx) => Sample3(title: "Canvas Test"),
         '3': (BuildContext ctx) => Sample4(title: "Custom widget Test"),
@@ -65,13 +63,14 @@ class MyApp extends StatelessWidget {
 class Sample1 extends StatefulWidget {
   final String title;
 
-  Sample1({Key key, this.title}) : super(key: key);
+  Sample1({Key? key, required this.title}) : super(key: key);
 
   @override
   State createState() => _Sample1State();
 }
 
 String sample1Txt = "pananfly";
+
 class _Sample1State extends State<Sample1> {
   var _random = Random();
   bool check = false;
@@ -83,10 +82,11 @@ class _Sample1State extends State<Sample1> {
   }
 
   Widget _getChild() {
-    if(check) {
-      return Checkbox(value: true, onChanged: (cb) => {
-
-      },);
+    if (check) {
+      return Checkbox(
+        value: true,
+        onChanged: (cb) => {},
+      );
     } else {
       return Text(sample1Txt);
     }
@@ -95,14 +95,12 @@ class _Sample1State extends State<Sample1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          children: [
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: [
             _getChild(),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -124,18 +122,14 @@ class _Sample1State extends State<Sample1> {
                   textColor: Colors.white,
                   child: Text("Custom test"),
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed("3")
-                        .then(
-                            (msg) =>
-                            Fluttertoast.showToast(
-                                msg: msg == null ? "Unknown" : msg.toString(),
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.BOTTOM,
-                                backgroundColor: Colors.blue,
-                                textColor: Colors.white,
-                                fontSize: 16.0
-                            ));
+                    Navigator.of(context).pushNamed("3").then((msg) =>
+                        Fluttertoast.showToast(
+                            msg: msg == null ? "Unknown" : msg.toString(),
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.blue,
+                            textColor: Colors.white,
+                            fontSize: 16.0));
                   },
                 ),
               ],
@@ -183,10 +177,8 @@ class _Sample1State extends State<Sample1> {
                 ),
               ],
             ),
-          ]
-        )
-      ),
-      floatingActionButton: FloatingActionButton (
+          ])),
+      floatingActionButton: FloatingActionButton(
         onPressed: _updateText,
         tooltip: "Update text",
         child: Icon(Icons.update),
@@ -195,20 +187,18 @@ class _Sample1State extends State<Sample1> {
   }
 }
 
-
 class Sample2 extends StatefulWidget {
   final String title;
 
-  Sample2({Key key, this.title}) : super(key: key);
+  Sample2({Key? key, required this.title}) : super(key: key);
 
   @override
   State createState() => _Sample2State();
 }
 
 class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
-
-  AnimationController _animationController;
-  CurvedAnimation _curvedAnimation;
+  AnimationController? _animationController;
+  CurvedAnimation? _curvedAnimation;
 
   @override
   void initState() {
@@ -217,7 +207,8 @@ class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    _curvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.slowMiddle);
+    _curvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.slowMiddle);
   }
 
   @override
@@ -230,14 +221,16 @@ class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
         child: Container(
           child: FadeTransition(
             opacity: _curvedAnimation,
-            child: FlutterLogo(size: 100.0,),
+            child: FlutterLogo(
+              size: 100.0,
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Fade",
         child: Icon(Icons.brush),
-        onPressed: ()  {
+        onPressed: () {
           _animationController.reset(); // 重置
           _animationController.forward(); // 开始
         },
@@ -255,22 +248,19 @@ class Sample3 extends StatefulWidget {
   State createState() => _Sample3State();
 }
 
-class _Sample3State extends State<Sample3>{
-
+class _Sample3State extends State<Sample3> {
   List<Offset> _points = <Offset>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: GestureDetector(
         onPanUpdate: (DragUpdateDetails details) {
           setState(() {
             RenderBox referenceBox = context.findRenderObject();
-            Offset localPosition = referenceBox.globalToLocal(details.globalPosition);
+            Offset localPosition =
+                referenceBox.globalToLocal(details.globalPosition);
             _points = List.from(_points)..add(localPosition);
           });
         },
@@ -289,7 +279,8 @@ class SignaturePainter extends CustomPainter {
   var painting = Paint();
 
   SignaturePainter(this.points) {
-    painting..color = Colors.red
+    painting
+      ..color = Colors.red
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0;
   }
@@ -297,15 +288,16 @@ class SignaturePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawColor(Colors.white, BlendMode.src);
-    for(int i = 0; i < points.length - 1 ; i++) {
-      if(points[i] != null && points[i + 1] != null) {
+    for (int i = 0; i < points.length - 1; i++) {
+      if (points[i] != null && points[i + 1] != null) {
         canvas.drawLine(points[i], points[i + 1], painting);
       }
     }
   }
 
   @override
-  bool shouldRepaint(covariant SignaturePainter oldDelegate) => oldDelegate.points != points;
+  bool shouldRepaint(covariant SignaturePainter oldDelegate) =>
+      oldDelegate.points != points;
 }
 
 class Sample4 extends StatefulWidget {
@@ -317,16 +309,14 @@ class Sample4 extends StatefulWidget {
   State createState() => _Sample4State();
 }
 
-class _Sample4State extends State<Sample4>{
+class _Sample4State extends State<Sample4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
+      appBar: AppBar(title: Text(widget.title)),
+      body: Center(
+        child: _Sample4Button("pananfly"),
       ),
-        body: Center(
-          child: _Sample4Button("pananfly"),
-        ),
     );
   }
 }
@@ -338,12 +328,16 @@ class _Sample4Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: () {
-      Navigator.of(context).pop("Result from custom widget.");
-    }, child: Text(content), style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.amber)),);
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.of(context).pop("Result from custom widget.");
+      },
+      child: Text(content),
+      style:
+          ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.amber)),
+    );
   }
 }
-
 
 class Sample5 extends StatefulWidget {
   final String title;
@@ -355,7 +349,6 @@ class Sample5 extends StatefulWidget {
 }
 
 class _Sample5State extends State<Sample5> {
-
   List widgets = [];
 
   @override
@@ -367,9 +360,7 @@ class _Sample5State extends State<Sample5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: ListView.builder(
         itemCount: widgets.length,
         itemBuilder: (BuildContext ctx, int position) {
@@ -405,7 +396,6 @@ class Sample6 extends StatefulWidget {
 }
 
 class _Sample6State extends State<Sample6> {
-
   List widgets = [];
 
   @override
@@ -417,19 +407,17 @@ class _Sample6State extends State<Sample6> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        title: Text(widget.title)
-        ),
-        body: getBody(),
+      appBar: AppBar(title: Text(widget.title)),
+      body: getBody(),
     );
   }
 
   bool showLoadingDialog() {
-      return widgets == null || widgets.length <= 0;
+    return widgets == null || widgets.length <= 0;
   }
 
   Widget getBody() {
-    if(showLoadingDialog()) {
+    if (showLoadingDialog()) {
       return getProgressDialog();
     }
     return ListView.builder(
@@ -450,7 +438,9 @@ class _Sample6State extends State<Sample6> {
   }
 
   Widget getProgressDialog() {
-    return Center(child: CircularProgressIndicator(),);
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
   Future<void> loadData() async {
@@ -458,7 +448,8 @@ class _Sample6State extends State<Sample6> {
     await Isolate.spawn(dataLoader, receivePort.sendPort);
 
     SendPort sendPort = await receivePort.first;
-    List msg = await sendReceive(sendPort, "https://jsonplaceholder.typicode.com/posts");
+    List msg = await sendReceive(
+        sendPort, "https://jsonplaceholder.typicode.com/posts");
     setState(() {
       widgets = msg;
     });
@@ -495,7 +486,6 @@ class Sample7 extends StatefulWidget {
 }
 
 class _Sample7State extends State<Sample7> with WidgetsBindingObserver {
-
   AppLifecycleState _state;
 
   @override
@@ -519,19 +509,16 @@ class _Sample7State extends State<Sample7> with WidgetsBindingObserver {
           msg: "State: $state",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.blue,
-      textColor: Colors.white,
-          fontSize: 16.0
-      );
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Text("Cur lifecycle state: $_state"),
       ),
@@ -548,31 +535,35 @@ class Sample8 extends StatefulWidget {
   State createState() => _Sample8State();
 }
 
-class _Sample8State extends State<Sample8>{
-
+class _Sample8State extends State<Sample8> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
-        child: GestureDetector(
-          child: FlutterLogo(size: 500,),
-          onTap: () => showToast("Action: onTap()"),
-          onTapDown: (TapDownDetails details) => showToast("Action: onTapDown()"),
-          onTapUp: (TapUpDetails details) => showToast("Action: onTapUp()"),
-          onTapCancel: () => showToast("Action: onTapCancel()"),
-          onDoubleTap: () => showToast("Action: onDoubleTap()"),
-          onLongPress: () => showToast("Action: onLongPress()"),
-          onVerticalDragStart: (DragStartDetails details) => showToast("Action: onVerticalDragStart()"),
-          onVerticalDragUpdate: (DragUpdateDetails details) => showToast("Action: onVerticalDragUpdate()"),
-          onVerticalDragEnd: (DragEndDetails details) => showToast("Action: onVerticalDragEnd()"),
-          onHorizontalDragStart: (DragStartDetails details) => showToast("Action: onHorizontalDragStart()"),
-          onHorizontalDragUpdate: (DragUpdateDetails details) => showToast("Action: onHorizontalDragUpdate()"),
-          onHorizontalDragEnd: (DragEndDetails details) => showToast("Action: onHorizontalDragEnd()"),
-        )
-      ),
+          child: GestureDetector(
+        child: FlutterLogo(
+          size: 500,
+        ),
+        onTap: () => showToast("Action: onTap()"),
+        onTapDown: (TapDownDetails details) => showToast("Action: onTapDown()"),
+        onTapUp: (TapUpDetails details) => showToast("Action: onTapUp()"),
+        onTapCancel: () => showToast("Action: onTapCancel()"),
+        onDoubleTap: () => showToast("Action: onDoubleTap()"),
+        onLongPress: () => showToast("Action: onLongPress()"),
+        onVerticalDragStart: (DragStartDetails details) =>
+            showToast("Action: onVerticalDragStart()"),
+        onVerticalDragUpdate: (DragUpdateDetails details) =>
+            showToast("Action: onVerticalDragUpdate()"),
+        onVerticalDragEnd: (DragEndDetails details) =>
+            showToast("Action: onVerticalDragEnd()"),
+        onHorizontalDragStart: (DragStartDetails details) =>
+            showToast("Action: onHorizontalDragStart()"),
+        onHorizontalDragUpdate: (DragUpdateDetails details) =>
+            showToast("Action: onHorizontalDragUpdate()"),
+        onHorizontalDragEnd: (DragEndDetails details) =>
+            showToast("Action: onHorizontalDragEnd()"),
+      )),
     );
   }
 }
@@ -586,8 +577,7 @@ class Sample9 extends StatefulWidget {
   State createState() => _Sample9State();
 }
 
-class _Sample9State extends State<Sample9>{
-
+class _Sample9State extends State<Sample9> {
   String _errorTxt;
   TextEditingController _textEditingController = TextEditingController();
 
@@ -602,22 +592,22 @@ class _Sample9State extends State<Sample9>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title)
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: TextField(
           controller: _textEditingController,
           onSubmitted: (String txt) {
             setState(() {
-              if(isEmail(txt)) {
+              if (isEmail(txt)) {
                 _errorTxt = null;
               } else {
                 _errorTxt = "Error, this is not an email.";
               }
             });
           },
-          onChanged: (String txt) => setState(() {_errorTxt = null;}),
+          onChanged: (String txt) => setState(() {
+            _errorTxt = null;
+          }),
           decoration: InputDecoration(
             hintText: "This is a hint",
             errorText: _errorTxt,
