@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 class StateSample extends StatefulWidget {
-
   final String title;
 
-  StateSample({Key key, this.title}) : super(key: key);
+  StateSample({Key? key, required this.title}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +22,9 @@ class StateSampleImpl extends State<StateSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title),),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       body: StateBox1(
         isActive: _active,
         onActiveChange: _handleStateChange,
@@ -34,11 +34,11 @@ class StateSampleImpl extends State<StateSample> {
 }
 
 class StateBox1 extends StatefulWidget {
-
   final bool isActive;
   final ValueChanged<bool> onActiveChange;
 
-  StateBox1({Key key, this.isActive = false, @required this.onActiveChange}) : super(key: key);
+  StateBox1({Key? key, this.isActive = false, required this.onActiveChange})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -47,7 +47,6 @@ class StateBox1 extends StatefulWidget {
 }
 
 class StateBox1Impl extends State<StateBox1> {
-
   bool _highLight = false;
 
   void _handleTapDown(TapDownDetails details) {
@@ -90,7 +89,9 @@ class StateBox1Impl extends State<StateBox1> {
         height: 200.0,
         decoration: BoxDecoration(
           color: widget.isActive ? Colors.lightGreen[700] : Colors.grey[600],
-          border: _highLight ? Border.all(color: Colors.teal[700], width: 10.0) : null,
+          border: _highLight
+              ? Border.all(color: Colors.teal[700] ?? Colors.teal, width: 10.0)
+              : null,
         ),
       ),
     );

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,11 +24,15 @@ class MyScaffold extends StatelessWidget {
         children: <Widget>[
           MyAppBar(
             title: Text(
-              "Example title",
+              "Example titlefdsafkhkdjshafkjhasdkkkkkkkkkkfjfjfjfjfjfjfjfjdsklfjls发动机喀什放附件打开啦时间分厘卡是独立房间拉萨大家附件是的了解分厘卡即使到了腹肌拉伤假啦空手道骄傲分厘卡第三方附件打开拉萨解放卡拉圣诞节分厘卡收到飞机迪斯科浪费捡垃圾四点零分fjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfjfj",
               style: Theme.of(context).primaryTextTheme.headline6,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          Expanded( // Expanded 扩展其他widget未使用的空间，如有多个expend则使用flex设置占用比例
+          Expanded(
+            // Expanded 扩展其他widget未使用的空间，如有多个expend则使用flex设置占用比例
+            flex: 1,
             child: Center(
               child: Text('Hello, pananfly!'),
             ),
@@ -42,10 +44,9 @@ class MyScaffold extends StatelessWidget {
 }
 
 class MyAppBar extends StatelessWidget {
-
   final Widget title;
 
-  MyAppBar({this.title});
+  MyAppBar({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,9 @@ class MyAppBar extends StatelessWidget {
             tooltip: 'Navigation menu',
             onPressed: null,
           ),
-          Expanded(child: title,),
+          Expanded(
+            child: title,
+          ),
           IconButton(
             icon: Icon(Icons.search),
             tooltip: 'Search',
@@ -68,7 +71,6 @@ class MyAppBar extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }
@@ -100,10 +102,9 @@ class Sample2Widget extends StatelessWidget {
 }
 
 class Sample3Widget extends StatefulWidget {
-
   final List<Product> products = <Product>[];
 
-  Sample3Widget({Key key}) : super(key: key) {
+  Sample3Widget({Key? key}) : super(key: key) {
     products.add(Product(name: 'Eggs'));
     products.add(Product(name: 'Flour'));
     products.add(Product(name: 'Chocolate chips'));
@@ -124,12 +125,11 @@ class Sample3Widget extends StatefulWidget {
 }
 
 class Sample3State extends State<Sample3Widget> {
-
   Set<Product> _shoppingCart = Set<Product>();
 
   void _handleCartChanged(Product product, bool inCart) {
     setState(() {
-      if(!inCart) {
+      if (!inCart) {
         _shoppingCart.add(product);
       } else {
         _shoppingCart.remove(product);
@@ -169,30 +169,30 @@ class Sample3State extends State<Sample3Widget> {
 
 class Product {
   final String name;
-  const Product({this.name});
+  const Product({required this.name});
 }
 
 typedef void CartChangedCallback(Product product, bool inCart);
 
 class ShoppingListItem extends StatelessWidget {
-
   final Product product;
   final bool inCart;
   final CartChangedCallback onCartChangedCallback;
 
-  ShoppingListItem({this.product, this.inCart, this.onCartChangedCallback})
-      : super(key: ObjectKey(product));
+  ShoppingListItem(
+      {required this.product,
+      required this.inCart,
+      required this.onCartChangedCallback})
+      : super(key: ObjectKey(product)); // 使用key进行优化，同一项共享使用
 
   Color _getColor(BuildContext ctx) {
     return inCart ? Colors.black54 : Theme.of(ctx).primaryColor;
   }
 
-  TextStyle _getTextStyle(BuildContext ctx) {
-    if(!inCart) return null;
+  TextStyle? _getTextStyle(BuildContext ctx) {
+    if (!inCart) return null;
     return TextStyle(
-      color: Colors.black54,
-      decoration: TextDecoration.lineThrough
-    );
+        color: Colors.black54, decoration: TextDecoration.lineThrough);
   }
 
   @override
@@ -205,7 +205,11 @@ class ShoppingListItem extends StatelessWidget {
         backgroundColor: _getColor(context),
         child: Text(product.name[0]),
       ),
-      title: Text(product.name, style: _getTextStyle(context),),
+      title: Text(
+        product.name,
+        style: _getTextStyle(context),
+      ),
+      subtitle: Text("123"),
     );
   }
 }

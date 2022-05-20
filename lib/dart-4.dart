@@ -17,10 +17,10 @@ void main() {
 Future greet() async {
   // await dart3.loadLibrary();
   // print(dart3.greetBob(dart3.Person('fdaf')));
-  String data = null;
+  String? data;
   try {
     data = await testSync();
-  }catch (e, s) {
+  } catch (e, s) {
     // 捕获安全
   }
   print(data);
@@ -28,35 +28,38 @@ Future greet() async {
   print(await getVersion()); // 调用必须加await
 }
 
-  testSync() async {
-    return await "fdafa";
-  }
-
-  Future<String> getVersion() async => "1.0.0";
-
-// 生成器
-Iterable<int> naturalsTo(int n) sync* { // sync* 返回一个Iterable对象
-  int k = 0;
-  while(k < n) yield k++;
+testSync() async {
+  return await "fdafa";
 }
 
-Iterable<int> naturalsTo2(int n) sync* { // 如果是递归的，使用yield*提高性能
-  if(n > 0) {
+Future<String> getVersion() async => "1.0.0";
+
+// 生成器
+Iterable<int> naturalsTo(int n) sync* {
+  // sync* 返回一个Iterable对象
+  int k = 0;
+  while (k < n) yield k++;
+}
+
+Iterable<int> naturalsTo2(int n) sync* {
+  // 如果是递归的，使用yield*提高性能
+  if (n > 0) {
     yield n;
     yield* naturalsTo2(n - 1);
   }
 }
 
-Stream<int> asyncnaturalsTo(int n) async* { // async* 返回一个Stream对象
+Stream<int> asyncnaturalsTo(int n) async* {
+  // async* 返回一个Stream对象
   int k = 0;
-  while(k < n) yield k++;
+  while (k < n) yield k++;
 }
 
 void testCallClass() {
   var clazz = CallClass();
   // 使用类调用call方法, 让类像函数一样调用
   int ret = clazz("1", "2", "3");
-  print("call class, ret: $ret ." );
+  print("call class, ret: $ret .");
   // page 45.
 }
 
@@ -65,7 +68,6 @@ class CallClass {
     return 6666;
   }
 }
-
 
 typedef Compare = int Function(Object a, Object b);
 
@@ -76,26 +78,25 @@ class SortedCollection {
 
 int sort(Object a, Object b) => 878888;
 
-
 typedef Compared<T> = int Function(T a, T b);
 int sorted(int a, int b) => a - b;
 void testTypedef() {
   // typedef 目前只适用于函数
   SortedCollection collection = SortedCollection(sort);
-  int ret = collection.compare(null , null);
-  print("Typedef 1 ret: $ret");
+  // int ret = collection.compare(null, null);
+  // print("Typedef 1 ret: $ret");
   assert(collection.compare is Function);
   assert(collection.compare is Compare);
   Compared<int> compared = sorted;
-  ret = compared(123, 4);
-  print("Typedef 2 ret: $ret");
+  int ret2 = compared(123, 4);
+  print("Typedef 2 ret: $ret2");
   todoSomething();
 }
 
 // 使用自定义注解
 @Todo("pananfly", "Implement something.")
 void todoSomething() {
-    print("Todo something.");
+  print("Todo something.");
 }
 
 // 单行注释

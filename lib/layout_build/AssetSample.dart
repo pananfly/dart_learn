@@ -1,12 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AssetSample extends StatefulWidget {
-
   final String title;
 
-  AssetSample({Key key, this.title}) : super(key: key);
+  AssetSample({Key? key, required this.title}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -15,7 +13,6 @@ class AssetSample extends StatefulWidget {
 }
 
 class AssetState extends State<AssetSample> {
-
   String _content = "";
 
   Future<String> _loadJson() async {
@@ -37,11 +34,16 @@ class AssetState extends State<AssetSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title),),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       body: Container(
         child: Column(
           children: [
-            Text(_content, style: TextStyle(fontSize: 20.0),)
+            Text(
+              _content,
+              style: TextStyle(fontSize: 20.0),
+            )
           ],
         ),
       ),

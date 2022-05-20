@@ -1,17 +1,17 @@
-
 import 'package:flutter/material.dart';
 
 class LayoutSample1 extends StatelessWidget {
-
   final String title;
 
-  LayoutSample1({Key key, this.title}) : super(key: key);
+  LayoutSample1({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     Widget _buildImage() {
-      return Image.asset("assets/images/cake.jpg", fit: BoxFit.cover,);
+      return Image.asset(
+        "assets/images/cake.jpg",
+        fit: BoxFit.cover,
+      );
     }
 
     Widget _buildStar() {
@@ -26,21 +26,22 @@ class LayoutSample1 extends StatelessWidget {
                 children: [
                   Container(
                     padding: EdgeInsets.only(bottom: 8),
-                    child: Text("Oeschinen Lake Campground",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
-                      ),
+                    child: Text(
+                      "Oeschinen Lake Campground",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text("Kandersteg, Switzerland",
-                    style: TextStyle(
-                        color: Colors.grey
-                    ),
+                  Text(
+                    "Kandersteg, Switzerland",
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.star, color: Colors.red,),
+            Icon(
+              Icons.star,
+              color: Colors.red,
+            ),
             Text('41')
           ],
         ),
@@ -52,43 +53,44 @@ class LayoutSample1 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: color,),
+            Icon(
+              icon,
+              color: color,
+            ),
             Container(
               padding: EdgeInsets.only(top: 8),
               child: Text(
                 label,
-                style: TextStyle(
-                  color: color
-                ),
+                style: TextStyle(color: color),
               ),
             )
           ],
         );
 
     Widget _buildAction() => Container(
-      padding: EdgeInsets.fromLTRB(32, 2, 32, 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildActionColumn(Colors.blue, Icons.call, "CALL"),
-          _buildActionColumn(Colors.blue, Icons.near_me, "ROUTE"),
-          _buildActionColumn(Colors.blue, Icons.share, "SHARE"),
-        ],
-      ),
-    );
+          padding: EdgeInsets.fromLTRB(32, 2, 32, 2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildActionColumn(Colors.blue, Icons.call, "CALL"),
+              _buildActionColumn(Colors.blue, Icons.near_me, "ROUTE"),
+              _buildActionColumn(Colors.blue, Icons.share, "SHARE"),
+            ],
+          ),
+        );
 
     Widget _descriptSection() => Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
+          padding: const EdgeInsets.all(32),
+          child: Text(
+            'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
             'Alps. Situated 1,578 meters above sea level, it is one of the '
             'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
             'half-hour walk through pastures and pine forest, leads you to the '
             'lake, which warms to 20 degrees Celsius in the summer. Activities '
             'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
-      ),
-    );
+            softWrap: true,
+          ),
+        );
 
     return Scaffold(
       appBar: AppBar(
@@ -96,6 +98,7 @@ class LayoutSample1 extends StatelessWidget {
       ),
       body: Container(
         child: ListView(
+          // 此处使用ListView的原因是，子内容没有完全显示时可以进行滚动浏览，如果使用Column时，超出屏幕的部分将会提示警告
           children: [
             _buildImage(),
             _buildStar(),

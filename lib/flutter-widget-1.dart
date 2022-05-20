@@ -24,12 +24,12 @@ showToast(String msg) {
       fontSize: 16.0);
 }
 
-Future<void> saveEmail() async {
+Future<void> saveEmail(String email) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.setString(EMAIL_KEY, "admin@pananfly.com");
+  await preferences.setString(EMAIL_KEY, email);
 }
 
-Future<String> getEmail() async {
+Future<String?> getEmail() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   return preferences.getString(EMAIL_KEY);
 }
@@ -37,7 +37,6 @@ Future<String> getEmail() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    saveEmail();
     return MaterialApp(
       title: 'Flutter Widget 1',
       theme: ThemeData(
@@ -140,6 +139,12 @@ class _Sample1State extends State<Sample1> {
                 Image(
                   image: AssetImage("assets/images/test.png"),
                 ),
+                Image(
+                  image: NetworkImage(
+                      "https://img-blog.csdnimg.cn/20190925151302949.gif"),
+                  width: 100,
+                  height: 100,
+                ),
                 MaterialButton(
                   color: Colors.blue,
                   textColor: Colors.white,
@@ -157,11 +162,14 @@ class _Sample1State extends State<Sample1> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MaterialButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Text("LifeCycle test"),
-                  onPressed: () => Navigator.of(context).pushNamed("6"),
+                Container(
+                  child: MaterialButton(
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    child: Text("LifeCycle test"),
+                    onPressed: () => Navigator.of(context).pushNamed("6"),
+                  ),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 ),
                 MaterialButton(
                   color: Colors.blue,
@@ -197,8 +205,8 @@ class Sample2 extends StatefulWidget {
 }
 
 class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
-  AnimationController? _animationController;
-  CurvedAnimation? _curvedAnimation;
+  late AnimationController _animationController;
+  late CurvedAnimation _curvedAnimation;
 
   @override
   void initState() {
@@ -209,6 +217,7 @@ class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
     );
     _curvedAnimation =
         CurvedAnimation(parent: _animationController, curve: Curves.slowMiddle);
+    _animationController.forward();
   }
 
   @override
@@ -219,8 +228,8 @@ class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
       ),
       body: Center(
         child: Container(
-          child: FadeTransition(
-            opacity: _curvedAnimation,
+          child: ScaleTransition(
+            scale: _curvedAnimation,
             child: FlutterLogo(
               size: 100.0,
             ),
@@ -240,28 +249,28 @@ class _Sample2State extends State<Sample2> with TickerProviderStateMixin {
 }
 
 class Sample3 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample3({Key key, this.title}) : super(key: key);
+  Sample3({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample3State();
 }
 
 class _Sample3State extends State<Sample3> {
-  List<Offset> _points = <Offset>[];
+  List<Offset?> _points = <Offset?>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: GestureDetector(
         onPanUpdate: (DragUpdateDetails details) {
           setState(() {
-            RenderBox referenceBox = context.findRenderObject();
-            Offset localPosition =
-                referenceBox.globalToLocal(details.globalPosition);
-            _points = List.from(_points)..add(localPosition);
+            // RenderObject? referenceBox = context.findRenderObject();
+            // Offset localPosition =
+            //     referenceBox?.globalToLocal(details.globalPosition);
+            _points = List.from(_points)..add(details.localPosition);
           });
         },
         onPanEnd: (DragEndDetails details) => _points.add(null),
@@ -275,7 +284,7 @@ class _Sample3State extends State<Sample3> {
 }
 
 class SignaturePainter extends CustomPainter {
-  final List<Offset> points;
+  final List<Offset?> points;
   var painting = Paint();
 
   SignaturePainter(this.points) {
@@ -290,7 +299,8 @@ class SignaturePainter extends CustomPainter {
     canvas.drawColor(Colors.white, BlendMode.src);
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i], points[i + 1], painting);
+        canvas.drawLine(
+            points[i] ?? Offset(0, 0), points[i + 1] ?? Offset(0, 0), painting);
       }
     }
   }
@@ -301,9 +311,9 @@ class SignaturePainter extends CustomPainter {
 }
 
 class Sample4 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample4({Key key, this.title}) : super(key: key);
+  Sample4({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample4State();
@@ -313,7 +323,7 @@ class _Sample4State extends State<Sample4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: Center(
         child: _Sample4Button("pananfly"),
       ),
@@ -330,7 +340,7 @@ class _Sample4Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.of(context).pop("Result from custom widget.");
+        Navigator.of(context).pop(context);
       },
       child: Text(content),
       style:
@@ -340,9 +350,9 @@ class _Sample4Button extends StatelessWidget {
 }
 
 class Sample5 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample5({Key key, this.title}) : super(key: key);
+  Sample5({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample5State();
@@ -360,7 +370,7 @@ class _Sample5State extends State<Sample5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: ListView.builder(
         itemCount: widgets.length,
         itemBuilder: (BuildContext ctx, int position) {
@@ -379,7 +389,7 @@ class _Sample5State extends State<Sample5> {
 
   Future<void> loadData() async {
     String url = "https://jsonplaceholder.typicode.com/posts";
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(Uri.parse(url));
     setState(() {
       widgets = jsonDecode(response.body);
     });
@@ -387,9 +397,9 @@ class _Sample5State extends State<Sample5> {
 }
 
 class Sample6 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample6({Key key, this.title}) : super(key: key);
+  Sample6({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample6State();
@@ -407,7 +417,7 @@ class _Sample6State extends State<Sample6> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: getBody(),
     );
   }
@@ -464,7 +474,7 @@ class _Sample6State extends State<Sample6> {
       SendPort replyTo = msg[1];
 
       String url = data;
-      http.Response response = await http.get(url);
+      http.Response response = await http.get(Uri.parse(url));
       replyTo.send(jsonDecode(response.body));
     }
   }
@@ -477,16 +487,16 @@ class _Sample6State extends State<Sample6> {
 }
 
 class Sample7 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample7({Key key, this.title}) : super(key: key);
+  Sample7({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample7State();
 }
 
 class _Sample7State extends State<Sample7> with WidgetsBindingObserver {
-  AppLifecycleState _state;
+  AppLifecycleState _state = AppLifecycleState.inactive;
 
   @override
   void initState() {
@@ -518,7 +528,7 @@ class _Sample7State extends State<Sample7> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: Center(
         child: Text("Cur lifecycle state: $_state"),
       ),
@@ -527,9 +537,9 @@ class _Sample7State extends State<Sample7> with WidgetsBindingObserver {
 }
 
 class Sample8 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample8({Key key, this.title}) : super(key: key);
+  Sample8({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample8State();
@@ -539,7 +549,7 @@ class _Sample8State extends State<Sample8> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: Center(
           child: GestureDetector(
         child: FlutterLogo(
@@ -569,16 +579,16 @@ class _Sample8State extends State<Sample8> {
 }
 
 class Sample9 extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  Sample9({Key key, this.title}) : super(key: key);
+  Sample9({Key? key, this.title}) : super(key: key);
 
   @override
   State createState() => _Sample9State();
 }
 
 class _Sample9State extends State<Sample9> {
-  String _errorTxt;
+  String? _errorTxt;
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -586,19 +596,20 @@ class _Sample9State extends State<Sample9> {
     // TODO: implement initState
     super.initState();
     // get text from SharePreference
-    getEmail().then((value) => _textEditingController.text = value);
+    getEmail().then((value) => _textEditingController.text = value ?? "");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title ?? "")),
       body: Center(
         child: TextField(
           controller: _textEditingController,
           onSubmitted: (String txt) {
             setState(() {
               if (isEmail(txt)) {
+                saveEmail(txt);
                 _errorTxt = null;
               } else {
                 _errorTxt = "Error, this is not an email.";

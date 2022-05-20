@@ -15,7 +15,7 @@ void main() {
   type = p.x.runtimeType;
   print("Point x's type 3 is $type."); // int
 
-  var p2 = Point.fromMap({'x': 1, 'y': 2.0 });
+  var p2 = Point.fromMap({'x': 1, 'y': 2.0});
   print("P2 x: ${p2.x}, y: ${p2.y}");
 
   var p3 = Point.alongXAxis(2);
@@ -33,17 +33,17 @@ void main() {
 
   print(greetBob(Person("pananfly")));
   print(greetBob(Impostor()));
-
 }
 
 class Point {
-  num x; // 声明变量x, 初始值为null
-  num y;
-  num z = 0; // 声明变量z, 初始化是0
+  num? x; // 声明变量x, 初始值为null
+  num? y;
+  num? z = 0; // 声明变量z, 初始化是0
 
   // Point(); // 空的默认构造函数
 
-  Point(num x, num y) { // 如果存在默认构造函数，这里会报错，并且不能同时存在两个构造函数
+  Point(num? x, num? y) {
+    // 如果存在默认构造函数，这里会报错，并且不能同时存在两个构造函数
     this.x = x;
     this.y = y;
     print("Point(num x, num y)");
@@ -54,7 +54,8 @@ class Point {
   // 构造函数执行前，通过初始列表设置实例变量(但我也没看到有调构造函数啊。。。)
   Point.fromMap(Map<String, num> map)
       : x = map['x'],
-        y = map['y'] { // 不会去调用构造函数
+        y = map['y'] {
+    // 不会去调用构造函数
     print("Point.fromMap(Map<String, num> map)");
   }
 
@@ -65,17 +66,18 @@ class Point {
   // }
 }
 
-class Circle extends Point { // 继承
-  Circle(num x, num y) : super(x, y) { // 调用父类构造函数
+class Circle extends Point {
+  // 继承
+  Circle(num x, num y) : super(x, y) {
+    // 调用父类构造函数
     print("Circle(num x, num y)");
   }
-
 }
 
 class Rectangle {
   // 静态常量
   static final Rectangle origin = const Rectangle(0, 0);
-  final num x , y;
+  final num x, y;
   // 常量构造函数，所有变量必须是final
   const Rectangle(this.x, this.y);
 }
@@ -84,23 +86,19 @@ class Logger {
   final String name;
   bool mute = false;
 
-  static final Map<String, Logger> _cache = <String, Logger> {}; // _开头的是私有属性
+  static final Map<String, Logger> _cache = <String, Logger>{}; // _开头的是私有属性
 
   factory Logger(String name) {
-    if(_cache.containsKey(name)) {
-      return _cache[name];
-    } else {
-      // 工厂构造函数无法访问this
-      final logger = Logger._internal(name);
-      _cache[name] = logger;
-      return logger;
-    }
+    // 工厂构造函数无法访问this
+    dynamic logger = _cache[name] ?? Logger._internal(name);
+    _cache[name] = logger;
+    return logger;
   }
 
   Logger._internal(this.name);
 
   void log(String msg) {
-    if(!mute) {
+    if (!mute) {
       print("$name: $msg");
     }
   }
@@ -142,7 +140,6 @@ class Person {
 }
 
 class Impostor implements Person {
-
   @override
   String greet(String who) => 'Hi $who, do you know who I am?';
 
@@ -158,19 +155,20 @@ class Vector {
   Vector operator +(Vector v) => Vector(x + v.x, y + v.y); // 重写运算符
 
   @override
-  noSuchMethod(Invocation invocation) { // 当代码尝试使用不存在的方法或者实例变量时，通过重写本方法来实现检测和应对
+  noSuchMethod(Invocation invocation) {
+    // 当代码尝试使用不存在的方法或者实例变量时，通过重写本方法来实现检测和应对
     print('You tried to use a non-existent member: ' +
         '${invocation.memberName}');
   }
 }
 
-enum Color {red, green, blue} // 索引从0开始
+enum Color { red, green, blue } // 索引从0开始
 
 void testEnum() {
   assert(Color.red.index == 0);
   List<Color> colors = Color.values;
   var aColor = Color.red;
-  switch(aColor) {
+  switch (aColor) {
     case Color.red:
       break;
     case Color.blue:
@@ -195,40 +193,34 @@ mixin Musical {
 
 // 使用with实现Mixin
 class Musician extends Person with Musical {
-
   Musician(name) : super(name) {
     canConduct = true;
   }
 
-  void play() {
-
-  }
+  void play() {}
 }
 
-mixin MusicalPerformer on Musician {
-
-}
+mixin MusicalPerformer on Musician {}
 
 // 指定只有某些类型可以使用的 Mixin - 比如， Mixin 可以调用 Mixin 自身没有定义的方法 - 使用 on 来指定可以使用 Mixin 的父类类型
 // with 可以跟多个
 class MusicalBBB extends Musician with MusicalPerformer, Musical {
   @override
-  bool canCompose;
+  late bool canCompose;
 
   @override
-  bool canConduct;
+  late bool canConduct;
 
   @override
-  bool canPlayPiano;
+  late bool canPlayPiano;
 
   MusicalBBB(name) : super(name);
 
   static const initialType = 0xAAA; // 静态变量只有在使用的时候才会初始化
 
-  static void playTrump() { // 类名直接调用
-
+  static void playTrump() {
+    // 类名直接调用
   }
-
 }
 
 void testMusician() {
@@ -244,18 +236,14 @@ void testMusician() {
 }
 
 void testGeneric() {
-  var foo = Foo<FooExtend> ();
-  var foo2 = Foo<FooBase> ();
-  var foo3 = Foo (); // 不指定
+  var foo = Foo<FooExtend>();
+  var foo2 = Foo<FooBase>();
+  var foo3 = Foo(); // 不指定
 }
 
-class FooBase {
+class FooBase {}
 
-}
-
-class FooExtend extends FooBase {
-
-}
+class FooExtend extends FooBase {}
 
 // 限制范型类型
 class Foo<T extends FooBase> {

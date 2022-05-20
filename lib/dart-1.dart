@@ -30,8 +30,8 @@ main() {
   printInteger(num);
   dynamic num2 = 10; // 特殊类型
   int num3 = 20;
-  List<int>? list1 = null;
-  List<dynamic>? list2 = null;
+  List<int>? list1;
+  List<dynamic>? list2;
 
   int? count; // 未初始化的默认值为null
   assert(count == null);
@@ -52,7 +52,7 @@ main() {
   late String lateDescription; // 延迟初始化变量
   lateDescription = "123";
   logger12.d("lateDescription: $lateDescription");
-  final name = '123'; // final 变量
+  final name = '123'; // final 常量
   final String name2 = "345";
 
   const bar = 1000;
@@ -65,7 +65,7 @@ main() {
   // bar3 = ["fdas"]; // const 不允许再次赋值
 
   const Object i = 3;
-  const list = [i as int]; // 使用类型强转
+  const list = [i as int, 2]; // 使用类型强转
   logger12.d("list: $list");
   const map = {if (i is int) i: 'int', 5: 0.55};
   logger12.d("map: $map");
@@ -93,6 +93,8 @@ main() {
   Type_Map();
 
   Type_Rune();
+
+  Type_late();
 }
 
 // ignore: non_constant_identifier_names
@@ -115,7 +117,7 @@ Type_Number() {
   assert(piAsString == '3.14');
 }
 
-// ignore: non_constant_identifier_names
+/// ignore: non_constant_identifier_names
 Type_String() {
   // -------------
   // String 字符串是一组UTF-16单元序列
@@ -210,4 +212,10 @@ Type_Rune() {
 Type_Symbol() {
   #radix;
   // page 10
+}
+
+late int i;
+Type_late() {
+  i = 1000;
+  logger12.d("late integer value: $i");
 }

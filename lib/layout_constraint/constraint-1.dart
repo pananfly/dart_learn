@@ -12,36 +12,36 @@ const big = const TextStyle(fontSize: 30);
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FlutterLayoutArticle(<Example>[
-    Example1(),
-    Example2(),
-    Example3(),
-    Example4(),
-    Example5(),
-    Example6(),
-    Example7(),
-    Example8(),
-    Example9(),
-    Example10(),
-    Example11(),
-    Example12(),
-    Example13(),
-    Example14(),
-    Example15(),
-    Example16(),
-    Example17(),
-    Example18(),
-    Example19(),
-    Example20(),
-    Example21(),
-    Example22(),
-    Example23(),
-    Example24(),
-    Example25(),
-    Example26(),
-    Example27(),
-    Example28(),
-    Example29(),
-  ]);
+        Example1(),
+        Example2(),
+        Example3(),
+        Example4(),
+        Example5(),
+        Example6(),
+        Example7(),
+        Example8(),
+        Example9(),
+        Example10(),
+        Example11(),
+        Example12(),
+        Example13(),
+        Example14(),
+        Example15(),
+        Example16(),
+        Example17(),
+        Example18(),
+        Example19(),
+        Example20(),
+        Example21(),
+        Example22(),
+        Example23(),
+        Example24(),
+        Example25(),
+        Example26(),
+        Example27(),
+        Example28(),
+        Example29(),
+      ]);
 }
 
 //////////////////////////////////////////////////
@@ -66,10 +66,10 @@ class FlutterLayoutArticle extends StatefulWidget {
 //////////////////////////////////////////////////
 
 class _FlutterLayoutArticleState extends State<FlutterLayoutArticle> {
-  int count;
-  Widget example;
-  String code;
-  String explanation;
+  late int count;
+  late Widget example;
+  late String code;
+  late String explanation;
 
   @override
   void initState() {
@@ -107,7 +107,8 @@ class _FlutterLayoutArticleState extends State<FlutterLayoutArticle> {
                     Expanded(
                         child: ConstrainedBox(
                             constraints: BoxConstraints.tightFor(
-                                width: double.infinity, height: double.infinity),
+                                width: double.infinity,
+                                height: double.infinity),
                             child: widget.examples[count - 1])),
                     Container(
                       height: 50,
@@ -121,7 +122,8 @@ class _FlutterLayoutArticleState extends State<FlutterLayoutArticle> {
                             for (int i = 0; i < widget.examples.length; i++)
                               Container(
                                   width: 58,
-                                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0),
                                   child: button(i + 1)),
                           ],
                         ),
@@ -137,9 +139,10 @@ class _FlutterLayoutArticleState extends State<FlutterLayoutArticle> {
                                   children: <Widget>[
                                     Center(child: Text(code)),
                                     SizedBox(height: 15),
-                                    Text(explanation,
+                                    SelectableText(explanation,
                                         style: TextStyle(
-                                            color: Colors.blue[900], fontStyle: FontStyle.italic)),
+                                            color: Colors.blue[900],
+                                            fontStyle: FontStyle.italic)),
                                   ],
                                 ),
                               )),
@@ -155,38 +158,39 @@ class _FlutterLayoutArticleState extends State<FlutterLayoutArticle> {
   }
 
   Widget button(int exampleNumber) => Button(
-    key: ValueKey('button$exampleNumber'),
-    isSelected: this.count == exampleNumber,
-    exampleNumber: exampleNumber,
-    onPressed: () {
-      showExample(
-        exampleNumber,
-        widget.examples[exampleNumber - 1].code,
-        widget.examples[exampleNumber - 1].explanation,
+        key: ValueKey('button$exampleNumber'),
+        isSelected: this.count == exampleNumber,
+        exampleNumber: exampleNumber,
+        onPressed: () {
+          showExample(
+            exampleNumber,
+            widget.examples[exampleNumber - 1].code,
+            widget.examples[exampleNumber - 1].explanation,
+          );
+        },
       );
-    },
-  );
 
-  void showExample(int exampleNumber, String code, String explanation) => setState(() {
-    this.count = exampleNumber;
-    this.code = code;
-    this.explanation = explanation;
-  });
+  void showExample(int exampleNumber, String code, String explanation) =>
+      setState(() {
+        this.count = exampleNumber;
+        this.code = code;
+        this.explanation = explanation;
+      });
 }
 
 //////////////////////////////////////////////////
 
 class Button extends StatelessWidget {
-  final Key key;
+  final Key? key;
   final bool isSelected;
   final int exampleNumber;
   final VoidCallback onPressed;
 
   Button({
     this.key,
-    this.isSelected,
-    this.exampleNumber,
-    this.onPressed,
+    required this.isSelected,
+    required this.exampleNumber,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -227,7 +231,8 @@ class Example1 extends Example {
 
 class Example2 extends Example {
   final String code = 'Container(width: 100, height: 100, color: red)';
-  final String explanation = 'The red Container wants to be 100x100, but it can\'t, '
+  final String explanation =
+      'The red Container wants to be 100x100, but it can\'t, '
       'because the screen forces it to be exactly the same size as the screen.'
       '\n\n'
       'So the Container fills the screen.';
@@ -297,7 +302,8 @@ class Example5 extends Example {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(width: double.infinity, height: double.infinity, color: red),
+      child: Container(
+          width: double.infinity, height: double.infinity, color: red),
     );
   }
 }
@@ -345,7 +351,6 @@ class Example7 extends Example {
       '\n\n'
       'Since the red `Container` has no size but has a child, it decides it wants to be the same size as its child. '
       'The red color isn\'t visible, since the green Container entirely covers all of the red Container.';
-
 
   @override
   Widget build(BuildContext context) {
@@ -401,7 +406,8 @@ class Example9 extends Example {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
+      constraints: BoxConstraints(
+          minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
       child: Container(color: red, width: 10, height: 10),
     );
   }
@@ -427,7 +433,8 @@ class Example10 extends Example {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
+        constraints: BoxConstraints(
+            minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
         child: Container(color: red, width: 10, height: 10),
       ),
     );
@@ -453,7 +460,8 @@ class Example11 extends Example {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
+        constraints: BoxConstraints(
+            minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
         child: Container(color: red, width: 1000, height: 1000),
       ),
     );
@@ -479,7 +487,8 @@ class Example12 extends Example {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
+        constraints: BoxConstraints(
+            minWidth: 70, minHeight: 70, maxWidth: 150, maxHeight: 150),
         child: Container(color: red, width: 100, height: 100),
       ),
     );
@@ -549,7 +558,8 @@ class Example15 extends Example {
       maxWidth: double.infinity,
       maxHeight: double.infinity,
       child: Container(color: red, width: 4000, height: 50),
-    );}
+    );
+  }
 }
 
 //////////////////////////////////////////////////
@@ -557,7 +567,8 @@ class Example15 extends Example {
 class Example16 extends Example {
   final String code = 'UnconstrainedBox(\n'
       '   child: Container(color: Colors.red, width: double.infinity, height: 100));';
-  final String explanation = 'This won\'t render anything, and you\'ll see an error in the console.'
+  final String explanation =
+      'This won\'t render anything, and you\'ll see an error in the console.'
       '\n\n'
       'The UnconstrainedBox lets its child be any size it wants, '
       'however its child is a Container with infinite size.'
@@ -595,7 +606,8 @@ class Example17 extends Example {
     return UnconstrainedBox(
       child: LimitedBox(
         maxWidth: 100,
-        child: Container(color: Colors.red, width: double.infinity, height: 100),
+        child:
+            Container(color: Colors.red, width: double.infinity, height: 100),
       ),
     );
   }
@@ -617,7 +629,10 @@ class Example18 extends Example {
   @override
   Widget build(BuildContext context) {
     return FittedBox(
-      child: Text('Some Example Text.'),
+      child: Text(
+        'Some Example Text.',
+        style: TextStyle(fontSize: 1, color: Colors.red),
+      ),
     );
   }
 }
@@ -628,7 +643,8 @@ class Example19 extends Example {
   final String code = 'Center(\n'
       '   child: FittedBox(\n'
       '      child: Text(\'Some Example Text.\')));';
-  final String explanation = 'But what happens if you put the FittedBox inside of a Center widget? '
+  final String explanation =
+      'But what happens if you put the FittedBox inside of a Center widget? '
       'The Center lets the FittedBox be any size it wants, up to the screen size.'
       '\n\n'
       'The FittedBox then sizes itself to the Text, and lets the Text be any size it wants.'
@@ -639,7 +655,10 @@ class Example19 extends Example {
   Widget build(BuildContext context) {
     return Center(
       child: FittedBox(
-        child: Text('Some Example Text.'),
+        child: Text(
+          'Some Example Text.',
+          style: TextStyle(fontSize: 15, color: Colors.red),
+        ),
       ),
     );
   }
@@ -662,7 +681,9 @@ class Example20 extends Example {
     return Center(
       child: FittedBox(
         child: Text(
-            'This is some very very very large text that is too big to fit a regular screen in a single line.'),
+          'This is some very very very large text that is too big to fit a regular screen in a single line.',
+          maxLines: 3, // no effect.
+        ),
       ),
     );
   }
@@ -714,7 +735,8 @@ class Example23 extends Example {
   final String code = 'Row(children:[\n'
       '   Container(color: red, child: Text(\'Hello!\'))\n'
       '   Container(color: green, child: Text(\'Goodbye!\'))]';
-  final String explanation = 'The screen forces the Row to be exactly the same size as the screen.'
+  final String explanation =
+      'The screen forces the Row to be exactly the same size as the screen.'
       '\n\n'
       'Just like an UnconstrainedBox, the Row won\'t impose any constraints onto its children, '
       'and instead lets them be any size they want.'
@@ -738,7 +760,8 @@ class Example24 extends Example {
   final String code = 'Row(children:[\n'
       '   Container(color: red, child: Text(\'…\'))\n'
       '   Container(color: green, child: Text(\'Goodbye!\'))]';
-  final String explanation = 'Since the Row won\'t impose any constraints onto its children, '
+  final String explanation =
+      'Since the Row won\'t impose any constraints onto its children, '
       'it\'s quite possible that the children might be too big to fit the available width of the Row.'
       'In this case, just like an UnconstrainedBox, the Row displays the "overflow warning".';
 
@@ -748,7 +771,8 @@ class Example24 extends Example {
       children: [
         Container(
             color: red,
-            child: Text('This is a very long text that won\'t fit the line.', style: big)),
+            child: Text('This is a very long text that won\'t fit the line.',
+                style: big)),
         Container(color: green, child: Text('Goodbye!', style: big)),
       ],
     );
@@ -775,10 +799,11 @@ class Example25 extends Example {
       children: [
         Expanded(
             child: Center(
-              child: Container(
-                  color: red,
-                  child: Text('This is a very long text that won\'t fit the line.', style: big)),
-            )),
+          child: Container(
+              color: red,
+              child: Text('This is a very long text that won\'t fit the line.',
+                  style: big)),
+        )),
         Container(color: green, child: Text('Goodbye!', style: big)),
       ],
     );
@@ -806,8 +831,12 @@ class Example26 extends Example {
         Expanded(
             child: Container(
                 color: red,
-                child: Text('This is a very long text that won\'t fit the line.', style: big))),
-        Expanded(child: Container(color: green, child: Text('Goodbye!', style: big))),
+                child: Text(
+                    'This is a very long text that won\'t fit the line.',
+                    style: big))),
+        Expanded(
+            child:
+                Container(color: green, child: Text('Goodbye!', style: big))),
       ],
     );
   }
@@ -821,7 +850,8 @@ class Example27 extends Example {
       '       child: Container(color: red, child: Text(\'…\')))\n'
       '   Flexible(\n'
       '       child: Container(color: green, child: Text(\'Goodbye!\'))]';
-  final String explanation = 'The only difference if you use Flexible instead of Expanded, '
+  final String explanation =
+      'The only difference if you use Flexible instead of Expanded, '
       'is that Flexible lets its child be SMALLER than the Flexible width, '
       'while Expanded forces its child to have the same width of the Expanded.'
       '\n\n'
@@ -837,8 +867,12 @@ class Example27 extends Example {
         Flexible(
             child: Container(
                 color: red,
-                child: Text('This is a very long text that won\'t fit the line.', style: big))),
-        Flexible(child: Container(color: green, child: Text('Goodbye!', style: big))),
+                child: Text(
+                    'This is a very long text that won\'t fit the line.',
+                    style: big))),
+        Flexible(
+            child:
+                Container(color: green, child: Text('Goodbye!', style: big))),
       ],
     );
   }

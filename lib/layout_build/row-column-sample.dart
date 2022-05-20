@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RowColumnSample extends StatelessWidget {
   final String title;
 
-  RowColumnSample({Key key, this.title}): super(key: key);
+  RowColumnSample({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final titleText = Container(
       padding: EdgeInsets.all(20),
       child: Text(
@@ -22,19 +21,22 @@ class RowColumnSample extends StatelessWidget {
     );
 
     final subTitleText = Text(
-        'Description',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
-          fontSize: 15,
-        ),
+      'Description',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
+        fontSize: 15,
+      ),
     );
 
     var stars = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.star, color: Colors.black),
+        GestureDetector(
+          child: Icon(Icons.star, color: Colors.black),
+          onTap: () => {Fluttertoast.showToast(msg: "点击了第一个星星")},
+        ),
         Icon(Icons.star, color: Colors.black),
         Icon(Icons.star, color: Colors.black),
         Icon(Icons.star, color: Colors.black),
@@ -53,71 +55,74 @@ class RowColumnSample extends StatelessWidget {
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w800,
-                fontFamily: "Roboto",
+                // fontFamily: "Roboto",
                 letterSpacing: 0.5,
-                fontSize: 15
-            ),
+                fontSize: 15),
           )
         ],
       ),
     );
 
     final descTextStyle = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w800,
-      fontFamily: 'Roboto',
-      letterSpacing: 0.5,
-      fontSize: 12,
-      height: 2
-    );
+        color: Colors.black,
+        fontWeight: FontWeight.w800,
+        // fontFamily: 'Roboto',
+        letterSpacing: 0.5,
+        fontSize: 12,
+        height: 2);
 
     final iconList = DefaultTextStyle.merge(
-      style: descTextStyle,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Icon(Icons.kitchen, color: Colors.green[500],),
-                Text('PREP:'),
-                Text('25 min'),
-              ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.timer, color: Colors.green[500],),
-                Text('COOK:'),
-                Text('1 hr'),
-              ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.restaurant, color: Colors.green[500],),
-                Text('FEEDS:'),
-                Text('4-6'),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+        style: descTextStyle,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Icon(
+                    Icons.kitchen,
+                    color: Colors.green[500],
+                  ),
+                  Text('PREP:'),
+                  Text('25 min'),
+                ],
+              ),
+              Column(
+                children: [
+                  Icon(
+                    Icons.timer,
+                    color: Colors.green[500],
+                  ),
+                  const Text('COOK:'),
+                  Text('1 hr'),
+                ],
+              ),
+              Column(
+                children: [
+                  Icon(
+                    Icons.restaurant,
+                    color: Colors.green[500],
+                  ),
+                  Text('FEEDS:'),
+                  Text('4-6'),
+                ],
+              ),
+            ],
+          ),
+        ));
 
     final leftColumn = Container(
       padding: EdgeInsets.all(6),
       child: Column(
-        children: [
-          titleText,
-          subTitleText,
-          ratings,
-          iconList
-        ],
+        children: [titleText, subTitleText, ratings, iconList],
       ),
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(title),),
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: ListView(
         children: [
           Row(
@@ -156,11 +161,26 @@ class RowColumnSample extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.star, color: Colors.red[500],),
-              Icon(Icons.star, color: Colors.red[500],),
-              Icon(Icons.star, color: Colors.green[500],),
-              Icon(Icons.star, color: Colors.black,),
-              Icon(Icons.star, color: Colors.black,)
+              Icon(
+                Icons.star,
+                color: Colors.red[500],
+              ),
+              Icon(
+                Icons.star,
+                color: Colors.red[500],
+              ),
+              Icon(
+                Icons.star,
+                color: Colors.green[500],
+              ),
+              Icon(
+                Icons.star,
+                color: Colors.black,
+              ),
+              Icon(
+                Icons.star,
+                color: Colors.black,
+              )
             ],
           ),
           Divider(),
@@ -174,7 +194,11 @@ class RowColumnSample extends StatelessWidget {
                     width: 380,
                     child: leftColumn,
                   ),
-                  Image.asset("assets/images/cake.jpg", width: 200, fit: BoxFit.cover,),
+                  Image.asset(
+                    "assets/images/cake.jpg",
+                    width: 200,
+                    fit: BoxFit.cover,
+                  ),
                 ],
               ),
             ),
@@ -184,4 +208,3 @@ class RowColumnSample extends StatelessWidget {
     );
   }
 }
-

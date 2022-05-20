@@ -15,22 +15,22 @@ bool isNoble2(int num) => num != null; // 只有一句表达式可以简写, => 
 // bool isNoble3(int num) => if(num != null) true else false ; // 错误
 
 // 可选参数, 参数默认值用=号, 旧版用:号以后将不支持
-void setFlags({bold = true, hidden = false, int size}) {
+void setFlags({bold = true, hidden = false, int? size}) {
   print("setFlags: $bold, $hidden, $size.");
 }
 
 // 可选中有required 必须传
-void setFlags2(int i, {int age, required bool flag}) {
+void setFlags2(int i, {int? age, required bool flag}) {
   print("setFlags2: $age, $flag.");
 }
 
 // 位置可选参数
-void setFlags3(String msg, [String warm]) {
+void setFlags3(String msg, [String? warm]) {
   print("setFlags3: $msg, $warm");
 }
 
 // 位置可选参数-默认值
-void setFlags4(String msg, [String warm = "666", String err]) {
+void setFlags4(String msg, [String warm = "666", String? err]) {
   print("setFlags4: $msg, $warm, $err");
 }
 
@@ -77,12 +77,12 @@ void testFunc2() {
 }
 
 class Second {
-  String name;
+  String? name;
 }
 
 class Person {
-  String firstName;
-  Second second;
+  String? firstName;
+  Second? second;
 }
 
 Person getPerson() {
@@ -93,7 +93,7 @@ void testCalculate() {
   print("testCalculate 5 / 2 = ${5 / 2}."); // 2.5 双浮点型
   print("testCalculate 5 ~/ 2 = ${5 ~/ 2}."); // 2 返回整形
 
-  int i;
+  int? i;
   if (i is Object) {
     // 判断类型
 
@@ -101,7 +101,7 @@ void testCalculate() {
   Object obj = Person();
   (obj as Person).firstName = "fdafd";
 
-  int b;
+  int? b;
   b ??= 123; // 当b为null时赋值，否则保持不变
   print("testCalculate b = $b");
 
